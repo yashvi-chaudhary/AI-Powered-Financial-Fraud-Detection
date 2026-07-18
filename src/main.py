@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 # Print current working directory
 
@@ -146,3 +147,20 @@ print("Testing Features Shape:", X_test.shape)
 
 print("\nTraining Target Shape:", y_train.shape)
 print("Testing Target Shape:", y_test.shape)
+
+# ============================================
+# Feature Scaling
+# ============================================
+
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+print("\nFeature Scaling Completed Successfully!")
+
+print("\nTraining Data Shape After Scaling:")
+print(X_train.shape)
+
+print("\nTesting Data Shape After Scaling:")
+print(X_test.shape)
