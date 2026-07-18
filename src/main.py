@@ -72,3 +72,42 @@ print(df.duplicated().sum())
 
 print("\nClass Distribution:")
 print(df["Class"].value_counts())
+
+# ============================================
+# Remove duplicate rows
+# ============================================
+
+df = df.drop_duplicates()
+
+print("\nDataset Shape After Removing Duplicates:")
+print(df.shape)
+
+print("\nDuplicate Rows After Cleaning:")
+print(df.duplicated().sum())
+
+# ============================================
+# Class Distribution After Cleaning
+# ============================================
+
+print("\nClass Distribution After Cleaning:")
+print(df["Class"].value_counts())
+
+print("\nClass Distribution Percentage:")
+print(df["Class"].value_counts(normalize=True) * 100)
+
+# ============================================
+# Fraud vs Genuine Transactions Bar Chart
+# ============================================
+
+import matplotlib.pyplot as plt
+
+class_counts = df["Class"].value_counts()
+
+plt.figure(figsize=(6, 5))
+plt.bar(["Genuine", "Fraud"], class_counts.values)
+
+plt.title("Fraud vs Genuine Transactions")
+plt.xlabel("Transaction Type")
+plt.ylabel("Number of Transactions")
+
+plt.show()
