@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from sklearn.model_selection import train_test_split
 
 # Print current working directory
 
@@ -127,3 +128,21 @@ print(y.head())
 
 print("\nFeatures Shape:", X.shape)
 print("Target Shape:", y.shape)
+
+# ============================================
+# Split Dataset into Training and Testing Sets
+# ============================================
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)
+
+print("\nTraining Features Shape:", X_train.shape)
+print("Testing Features Shape:", X_test.shape)
+
+print("\nTraining Target Shape:", y_train.shape)
+print("Testing Target Shape:", y_test.shape)
