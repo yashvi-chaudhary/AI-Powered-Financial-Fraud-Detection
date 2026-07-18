@@ -20,6 +20,7 @@ from sklearn.metrics import (
     classification_report,
 )
 from sklearn.ensemble import RandomForestClassifier
+import joblib
 
 # Print current working directory
 
@@ -253,3 +254,50 @@ rf_cm = confusion_matrix(y_test, rf_pred)
 
 print("\nRandom Forest Confusion Matrix:")
 print(rf_cm)
+
+# ============================================
+# Feature Importance
+# ============================================
+
+importance = rf_model.feature_importances_
+
+feature_importance = pd.DataFrame({
+    "Feature": X.columns,
+    "Importance": importance
+})
+
+feature_importance = feature_importance.sort_values(
+    by="Importance",
+    ascending=False
+)
+
+print("\nFeature Importance:")
+print(feature_importance)
+
+# ============================================
+# Feature Importance Graph
+# ============================================
+
+plt.figure(figsize=(12, 8))
+
+plt.barh(
+    feature_importance["Feature"],
+    feature_importance["Importance"]
+)
+
+plt.xlabel("Importance")
+plt.ylabel("Features")
+plt.title("Feature Importance - Random Forest")
+
+plt.gca().invert_yaxis()
+
+plt.show()
+
+# ============================================
+# Save the Trained Random Forest Model
+# ============================================
+
+joblib.dump(rf_model, "models/fraud_detection_model.pkl")
+
+print("\n✅ Model Saved Successfully!")
+print("Model Location: models/fraud_detection_model.pkl")
