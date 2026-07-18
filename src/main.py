@@ -111,3 +111,19 @@ plt.xlabel("Transaction Type")
 plt.ylabel("Number of Transactions")
 
 plt.show()
+
+# ============================================
+# Separate Features and Target
+# ============================================
+
+X = df.drop("Class", axis=1)
+y = df["Class"]
+
+print("\nFeatures (X):")
+print(X.head())
+
+print("\nTarget (y):")
+print(y.head())
+
+print("\nFeatures Shape:", X.shape)
+print("Target Shape:", y.shape)
