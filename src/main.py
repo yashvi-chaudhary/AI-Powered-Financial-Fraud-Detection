@@ -10,6 +10,16 @@ import matplotlib.pyplot as plt
 import os
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    confusion_matrix,
+    classification_report,
+)
+from sklearn.ensemble import RandomForestClassifier
 
 # Print current working directory
 
@@ -164,3 +174,82 @@ print(X_train.shape)
 
 print("\nTesting Data Shape After Scaling:")
 print(X_test.shape)
+
+# ============================================
+# Train Logistic Regression Model
+# ============================================
+
+model = LogisticRegression(random_state=42)
+
+model.fit(X_train, y_train)
+
+print("\n🎉 Logistic Regression Model Trained Successfully!")
+
+# ============================================
+# Make Predictions
+# ============================================
+
+y_pred = model.predict(X_test)
+
+print("\nFirst 10 Predictions:")
+print(y_pred[:10])
+
+print("\nFirst 10 Actual Values:")
+print(y_test.iloc[:10].values)
+
+# ============================================
+# Model Evaluation
+# ============================================
+
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+
+print("\nModel Performance")
+print("-------------------------")
+print(f"Accuracy : {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall   : {recall:.4f}")
+print(f"F1-Score : {f1:.4f}")
+
+# ============================================
+# Confusion Matrix
+# ============================================
+
+cm = confusion_matrix(y_test, y_pred)
+
+print("\nConfusion Matrix:")
+print(cm)
+
+# ============================================
+# Random Forest Classifier
+# ============================================
+
+rf_model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+
+rf_model.fit(X_train, y_train)
+
+print("\n🌲 Random Forest Model Trained Successfully!")
+
+rf_pred = rf_model.predict(X_test)
+
+rf_accuracy = accuracy_score(y_test, rf_pred)
+rf_precision = precision_score(y_test, rf_pred)
+rf_recall = recall_score(y_test, rf_pred)
+rf_f1 = f1_score(y_test, rf_pred)
+
+print("\nRandom Forest Performance")
+print("-------------------------")
+print(f"Accuracy : {rf_accuracy:.4f}")
+print(f"Precision: {rf_precision:.4f}")
+print(f"Recall   : {rf_recall:.4f}")
+print(f"F1-Score : {rf_f1:.4f}")
+
+rf_cm = confusion_matrix(y_test, rf_pred)
+
+print("\nRandom Forest Confusion Matrix:")
+print(rf_cm)
