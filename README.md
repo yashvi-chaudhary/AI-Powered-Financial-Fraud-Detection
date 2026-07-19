@@ -147,7 +147,7 @@ AI-Powered Financial Fraud Detection
 ## 1. Clone the repository
 
 ```bash
-git clone <your-github-repository-link>
+git clone git clone https://github.com/yashvi-chaudhary/AI-Powered-Financial-Fraud-Detection.git
 ```
 
 ## 2. Navigate to project directory
@@ -227,6 +227,19 @@ Target:
 
 ---
 
+## 📥 Dataset
+
+The original dataset (`creditcard.csv`) is not included in this repository due to GitHub file size limitations.
+
+You can download it from the Kaggle Credit Card Fraud Detection dataset and place it inside the `dataset/` folder before running the project.
+
+Expected path:
+
+```text
+dataset/
+└── creditcard.csv
+```
+
 ---
 
 # 📸 Application Screenshots
@@ -252,6 +265,8 @@ Target:
 ## 📊 Model Comparison
 
 ![Model Comparison](screenshots/model_comparison.png)
+
+---
 
 # 👩‍💻 Author
 
