@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        AI-Powered Financial Fraud Detection
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>💳 AI-Powered Financial Fraud Detection</h1>
+
+
+    <p>
+        Detect whether a financial transaction is
+        <strong>Genuine</strong> or
+        <strong>Fraudulent</strong>
+        using Machine Learning.
+    </p>
+
+
+    <form action="/predict" method="POST">
+
+
+        <input 
+        type="number" 
+        step="any"
+        name="feature0"
+        placeholder="Time"
+        required>
+
+
+        <input 
+        type="number" 
+        step="any"
+        name="feature1"
+        placeholder="V1"
+        required>
+
+
+        <input 
+        type="number" 
+        step="any"
+        name="feature2"
+        placeholder="V2"
+        required>
+
+
+        <input 
+        type="number" 
+        step="any"
+        name="feature3"
+        placeholder="V3"
+        required>
+
+
+        <input 
+        type="number" 
+        step="any"
+        name="feature4"
+        placeholder="V4"
+        required>
+
+
+        <!-- Remaining features -->
+
+        {% for i in range(5,30) %}
+
+        <input 
+        type="number" 
+        step="any"
+        name="feature{{i}}"
+        placeholder="Feature {{i}}"
+        required>
+
+        {% endfor %}
+
+
+
+        <button type="submit">
+            Start Prediction
+        </button>
+
+
+    </form>
+
+
+{% if prediction %}
+
+<div class="result">
+
+<h2>
+{{prediction}}
+</h2>
+
+</div>
+
+{% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>

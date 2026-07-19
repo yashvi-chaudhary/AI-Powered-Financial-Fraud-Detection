@@ -22,6 +22,9 @@ from sklearn.metrics import (
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 
+from sklearn.tree import DecisionTreeClassifier
+from xgboost import XGBClassifier
+
 # Print current working directory
 
 print("Current Working Directory:")
@@ -122,6 +125,8 @@ plt.bar(["Genuine", "Fraud"], class_counts.values)
 plt.title("Fraud vs Genuine Transactions")
 plt.xlabel("Transaction Type")
 plt.ylabel("Number of Transactions")
+
+plt.savefig("static/fraud_distribution.png")
 
 plt.show()
 
@@ -291,6 +296,8 @@ plt.title("Feature Importance - Random Forest")
 
 plt.gca().invert_yaxis()
 
+plt.savefig("static/feature_importance.png")
+
 plt.show()
 
 # ============================================
@@ -299,5 +306,163 @@ plt.show()
 
 joblib.dump(rf_model, "models/fraud_detection_model.pkl")
 
+# Save Scaler
+
+joblib.dump(
+    scaler,
+    "models/scaler.pkl"
+)
+
+print("✅ Scaler Saved Successfully!")
+
 print("\n✅ Model Saved Successfully!")
 print("Model Location: models/fraud_detection_model.pkl")
+
+# -------------------------------
+# Decision Tree Classifier
+# -------------------------------
+
+decision_tree = DecisionTreeClassifier(random_state=42)
+
+decision_tree.fit(X_train, y_train)
+
+print("\n🌳 Decision Tree Model Trained Successfully!")
+
+# Make Predictions
+
+dt_predictions = decision_tree.predict(X_test)
+
+print("\nFirst 10 Decision Tree Predictions:")
+print(dt_predictions[:10])
+
+print("\nDecision Tree Performance")
+print("-------------------------")
+
+print("Accuracy :", round(accuracy_score(y_test, dt_predictions), 4))
+print("Precision:", round(precision_score(y_test, dt_predictions), 4))
+print("Recall   :", round(recall_score(y_test, dt_predictions), 4))
+print("F1-Score :", round(f1_score(y_test, dt_predictions), 4))
+
+print("\nDecision Tree Confusion Matrix:")
+print(confusion_matrix(y_test, dt_predictions))
+
+# ============================================
+# Save Decision Tree Model
+# ============================================
+
+joblib.dump(decision_tree, "models/decision_tree_model.pkl")
+
+print("\n✅ Decision Tree Model Saved Successfully!")
+print("Model Location: models/decision_tree_model.pkl")
+
+# ============================================
+# XGBoost Classifier
+# ============================================
+
+xgb_model = XGBClassifier(
+    random_state=42,
+    eval_metric="logloss"
+)
+
+xgb_model.fit(X_train, y_train)
+
+print("\n🚀 XGBoost Model Trained Successfully!")
+
+# Make Predictions
+
+xgb_pred = xgb_model.predict(X_test)
+
+print("\nFirst 10 XGBoost Predictions:")
+print(xgb_pred[:10])
+
+xgb_accuracy = accuracy_score(y_test, xgb_pred)
+xgb_precision = precision_score(y_test, xgb_pred)
+xgb_recall = recall_score(y_test, xgb_pred)
+xgb_f1 = f1_score(y_test, xgb_pred)
+
+print("\nXGBoost Performance")
+print("-------------------------")
+print(f"Accuracy : {xgb_accuracy:.4f}")
+print(f"Precision: {xgb_precision:.4f}")
+print(f"Recall   : {xgb_recall:.4f}")
+print(f"F1-Score : {xgb_f1:.4f}")
+
+xgb_cm = confusion_matrix(y_test, xgb_pred)
+
+print("\nXGBoost Confusion Matrix:")
+print(xgb_cm)
+
+# ============================================
+# XGBoost Feature Importance
+# ============================================
+
+xgb_importance = pd.DataFrame({
+    "Feature": X.columns,
+    "Importance": xgb_model.feature_importances_
+})
+
+xgb_importance = xgb_importance.sort_values(
+    by="Importance",
+    ascending=False
+)
+
+print("\nXGBoost Feature Importance:")
+print(xgb_importance)
+
+plt.figure(figsize=(12,8))
+
+plt.barh(
+    xgb_importance["Feature"],
+    xgb_importance["Importance"]
+)
+
+plt.xlabel("Importance")
+plt.ylabel("Features")
+plt.title("Feature Importance - XGBoost")
+
+plt.gca().invert_yaxis()
+
+plt.show()
+
+# ============================================
+# Save XGBoost Model
+# ============================================
+
+joblib.dump(xgb_model, "models/xgboost_model.pkl")
+
+print("\n✅ XGBoost Model Saved Successfully!")
+print("Model Location: models/xgboost_model.pkl")
+
+
+# ============================================
+# Model Comparison Graph
+# ============================================
+
+algorithms = [
+    "Logistic Regression",
+    "Decision Tree",
+    "Random Forest",
+    "XGBoost"
+]
+
+accuracies = [
+    accuracy,
+    round(dt_predictions is not None and accuracy_score(y_test, dt_predictions), 4),
+    rf_accuracy,
+    xgb_accuracy
+]
+
+plt.figure(figsize=(10, 6))
+
+plt.bar(algorithms, accuracies)
+
+plt.title("Model Accuracy Comparison")
+plt.xlabel("Algorithms")
+plt.ylabel("Accuracy")
+
+for i, value in enumerate(accuracies):
+    plt.text(i, value, f"{value:.4f}", ha='center', va='bottom')
+
+    plt.savefig("static/model_comparison.png")
+
+plt.show()
