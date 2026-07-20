@@ -4,6 +4,10 @@ An end-to-end Machine Learning based application that detects fraudulent financi
 
 ---
 
+#  LIVE DEMO LINK
+
+https://yashvi-chaudhary-ai-powered-financial-f-srcstreamlit-app-2rgweo.streamlit.app/
+
 ## 📌 Project Overview
 
 Financial fraud detection is a critical challenge in the banking and financial sector. This project uses Machine Learning techniques to classify transactions as:
