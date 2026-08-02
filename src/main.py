@@ -466,3 +466,40 @@ for i, value in enumerate(accuracies):
     plt.savefig("static/model_comparison.png")
 
 plt.show()
+
+
+comparison_df = pd.DataFrame({
+    "Model": [
+        "Decision Tree",
+        "Random Forest",
+        "XGBoost"
+    ],
+    "Accuracy": [
+        accuracy_score(y_test, dt_predictions),
+        rf_accuracy,
+        xgb_accuracy
+    ],
+    "Precision": [
+        precision_score(y_test, dt_predictions),
+        rf_precision,
+        xgb_precision
+    ],
+    "Recall": [
+        recall_score(y_test, dt_predictions),
+        rf_recall,
+        xgb_recall
+    ],
+    "F1 Score": [
+        f1_score(y_test, dt_predictions),
+        rf_f1,
+        xgb_f1
+    ]
+})
+
+comparison_df.to_csv("models/model_metrics.csv", index=False)
+
+print("✅ Model metrics saved successfully!")
+
+import os
+
+print("Current Folder:", os.getcwd())
